@@ -1,6 +1,7 @@
 import math
 import erwtima_3
 
+num_letters = 24
 distance = 0
 
 u = ['α': 1/num_letters, 'β': 1/num_letters, 'γ': 1/num_letters, 'δ': 1/num_letters, 'ε': 1/num_letters, 'ζ': 1/num_letters, 'η': 1/num_letters, 'θ': 1/num_letters, 'ι': 1/num_letters,
