@@ -3,3 +3,4 @@ q = {'α':0.018,'Α':0.018,'Ά':0.018,'ά':0.018,'β':0.018,'Β':0.18,'γ':0.018
 for i in pdf.keys():
     distance += pdf[i]*math.log(pdf[i]/q[i],2)
 print('Kullback-Leibler distance = ',distance)
+#ekana tin pi8anotita 0.018 dioti exoume 55 xaraktires kai i pi8anotita 1/55 se dekadikous einai 0.018181818 opote gia na einai pio mikro to ekana 0.018
