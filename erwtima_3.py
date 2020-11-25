@@ -90,7 +90,7 @@ def alphabetGR_count_distribution(text_file):
         p[l] = letters[l]/total
     return letters, p
 
-letters_count, pdf = alphabetGR_count_distribution('NEO_SYNTAGMA_AB')
+letters_count, pdf = alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt')
 H = 0
 for i in pdf.keys():
     if pdf[i] > 0:
