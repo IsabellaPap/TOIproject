@@ -11,5 +11,5 @@ with open('NEO_SYNTAGMA_AB.txt','w') as f2:
     'τ':0,'Τ':0,'υ':0,'Υ':0,'Ύ':0,'ύ':0,'ϋ':0,'φ':0,'Φ':0,'χ':0,'Χ':0,'ψ':0,'Ψ':0,'ω':0,'Ω':0,'Ώ':0,'ώ':0}
 
     for i in data:
-        if i in letters:
+        if i in letters.keys():
             f2.write(i)
