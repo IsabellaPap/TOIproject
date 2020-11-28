@@ -88,47 +88,9 @@ for key, val in zip(code,c):
 with open ("NEO_SYNTAGMA_KEF.txt","r") as f1:
     mes_in = ''.join(f1.read())
 
-mes_to_send = coding(mes_in,code)
+coded_mes = coding(mes_in,code)
 
-
-# Input-Output alphabet
-x_al = ['0','1']
-
-def com_coding01(mes,n):
-    coded_mes = []
-    for i in mes:
-        coded_mes.append(n*i)
-    return ''.join(coded_mes)
-# Coding channel
-n = 9
-coded_mes_to_send = com_coding01(mes_to_send,n)
-
-def channel01(in_s,alpha,p):
-    out_s = []
-    for i in in_s:
-        # Inserting the chance of the message being received broken
-        if random.random() < p:
-            out_s.append(alpha[(alpha.index(i)+1)%2])
-        else: 
-            out_s.append(i)
-    return ''.join(out_s)
 # DECODING PART
-# p is the chance of an error from the channel while transfering the message
-p = 0.1
-received_uncoded_mes = channel01(coded_mes_to_send,x_al,p)
-
-# Decoding the channel
-def com_decoding01(mes,n):
-    y = []
-    for i in range(0,len(mes),n):
-        s = mes[i:i+n]
-        if s.count('0') > n//2:
-            y.append('0')
-        else:
-            y.append('1')
-    return ''.join(y)
-
-received_mes = com_decoding01(received_uncoded_mes,n)
 
 # Decoding the message
 def decoding01(mes,code):
@@ -148,7 +110,7 @@ def decoding01(mes,code):
         decoded.append(letter)
     return ''.join(decoded)
 
-r_message = decoding01(received_mes,code)
+r_message = decoding01(coded_mes,code)
 
 with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
       f1.write(r_message)
@@ -156,12 +118,8 @@ with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
 def hamming_distance(s1, s2):
     return sum(c1 != c2 for c1, c2 in zip(s1, s2))
 
-import math
-
-print('Διαφορά από κωδικοποιημένο μήνυμα: ',hamming_distance(mes_to_send,received_mes))
 print('Διαφορά από αρχικό μήνυμα: ',hamming_distance(mes_in,r_message))
 
-c = 1 - (-p*math.log(p,2) - (1-p)*math.log((1-p),2))
-print('Ρυθμός για n = ',n,': R = ',math.log(5,2)/(n*3),' bits')
-print('Χωρητικότητα καναλιού  C = ',c)
+
+
 
