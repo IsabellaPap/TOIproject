@@ -88,7 +88,6 @@ for key, val in zip(code,c):
 with open ("NEO_SYNTAGMA_KEF.txt","r") as f1:
     mes_in = ''.join(f1.read())
 
-print(mes_in)
 mes_to_send = coding(mes_in,code)
 
 
@@ -118,7 +117,7 @@ def channel01(in_s,alpha,p):
 p = 0.1
 received_uncoded_mes = channel01(coded_mes_to_send,x_al,p)
 
-# Secoding the cahnnel
+# Decoding the channel
 def com_decoding01(mes,n):
     y = []
     for i in range(0,len(mes),n):
@@ -142,18 +141,17 @@ def decoding01(mes,code):
             # for every codeword it checks if the same length matches the code
             if value == mes[i:i+len(code[key])]:
                 letter = key
-                # if it does match we need to break or else it will continue searching
-               # break
         i += len(letter)
+        if letter == '':
+            letter = '_'
         decoded.append(letter)
     return ''.join(decoded)
 
 r_message = decoding01(received_mes,code)
-#print(r_message)
+print(r_message)
 
 
-''' 
+
 with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
       f1.write(r_message)
 
-'''
