@@ -142,16 +142,26 @@ def decoding01(mes,code):
             if value == mes[i:i+len(code[key])]:
                 letter = key
         i += len(letter)
-        if letter == '':
-            letter = '_'
+     # if you uncomment the difference from the original message increases
+     #   if letter == '':
+      #      letter = '_'
         decoded.append(letter)
     return ''.join(decoded)
 
 r_message = decoding01(received_mes,code)
-print(r_message)
-
-
 
 with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
       f1.write(r_message)
+
+def hamming_distance(s1, s2):
+    return sum(c1 != c2 for c1, c2 in zip(s1, s2))
+
+import math
+
+print('Διαφορά από κωδικοποιημένο μήνυμα: ',hamming_distance(mes_to_send,received_mes))
+print('Διαφορά από αρχικό μήνυμα: ',hamming_distance(mes_in,r_message))
+
+c = 1 - (-p*math.log(p,2) - (1-p)*math.log((1-p),2))
+print('Ρυθμός για n = ',n,': R = ',math.log(5,2)/(n*3),' bits')
+print('Χωρητικότητα καναλιού  C = ',c)
 
