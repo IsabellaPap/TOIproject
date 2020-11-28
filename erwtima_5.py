@@ -1,5 +1,6 @@
 import math
 import erwtima_3
+import random
 
 # CODING PART
 
@@ -62,10 +63,7 @@ for i in range(len(p)):
     c.append(l[i][:l_w[i]])
     
 print('F = ',f,'\nFI = ',fi,'\nL = ',l,'\nLP = ',l_w,'\nCode = ',c)
-# print(''.join(c[3]))
-with open ('NEO_SYNTAGMA_CODED.txt','w') as f1:
-    for i in range(len(p)):
-      f1.write(l[i])
+print(''.join(c[3]))
 
 h = 0
 l_sfe = 0
@@ -74,5 +72,88 @@ for i in range(len(p)):
     l_sfe += p[i] * len(c[i]) 
 print('H(X) = ',h,'L(X) = ',l_sfe,'Eff =',h/l_sfe)
 
-# DECODING PART
+def coding(mes,code):
+    coded_mes = []
+    for i in mes:
+        coded_mes.append(code[i])
+    return ''.join(coded_mes)
 
+# Create code by using letters keys and c values
+letters = erwtima_3.letters_count
+code = letters
+for key, val in zip(code,c):
+    code[key]= val
+
+# Create the message
+with open ("NEO_SYNTAGMA_KEF.txt","r") as f1:
+    mes_in = ''.join(f1.read())
+
+print(mes_in)
+mes_to_send = coding(mes_in,code)
+
+
+# Input-Output alphabet
+x_al = ['0','1']
+
+def com_coding01(mes,n):
+    coded_mes = []
+    for i in mes:
+        coded_mes.append(n*i)
+    return ''.join(coded_mes)
+# Coding channel
+n = 9
+coded_mes_to_send = com_coding01(mes_to_send,n)
+
+def channel01(in_s,alpha,p):
+    out_s = []
+    for i in in_s:
+        # Inserting the chance of the message being received broken
+        if random.random() < p:
+            out_s.append(alpha[(alpha.index(i)+1)%2])
+        else: 
+            out_s.append(i)
+    return ''.join(out_s)
+# DECODING PART
+# p is the chance of an error from the channel while transfering the message
+p = 0.1
+received_uncoded_mes = channel01(coded_mes_to_send,x_al,p)
+
+# Secoding the cahnnel
+def com_decoding01(mes,n):
+    y = []
+    for i in range(0,len(mes),n):
+        s = mes[i:i+n]
+        if s.count('0') > n//2:
+            y.append('0')
+        else:
+            y.append('1')
+    return ''.join(y)
+
+received_mes = com_decoding01(received_uncoded_mes,n)
+
+# Decoding the message
+def decoding01(mes,code):
+    decoded = []
+    for i in range(0,len(mes)):
+        letter = ''
+        # checks for every value if it matches with codeword
+        # because it is a "prefix code" we will not have matches regardless of the length we check
+        for key, value in code.items():  
+            # for every codeword it checks if the same length matches the code
+            if value == mes[i:i+len(code[key])]:
+                letter = key
+                # if it does match we need to break or else it will continue searching
+               # break
+        i += len(letter)
+        decoded.append(letter)
+    return ''.join(decoded)
+
+r_message = decoding01(received_mes,code)
+#print(r_message)
+
+
+''' 
+with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
+      f1.write(r_message)
+
+'''
