@@ -1,5 +1,5 @@
 import math
-import erwtima_3
+import erwtima_1
 import random
 
 # CODING PART
@@ -32,7 +32,7 @@ def length_words(p):
             lp.append(int(m_l)+2)
     return lp
 
-letters_count,pdf = erwtima_3.alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt') 
+letters_count,pdf = erwtima_1.alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt') 
 p = list(pdf.values())
 # f keeps track of Sums so it can add the previous to the next
 f = []
@@ -79,8 +79,7 @@ def coding(mes,code):
     return ''.join(coded_mes)
 
 # Create code by using letters keys and c values
-letters = erwtima_3.letters_count
-code = letters
+code = letters_count
 for key, val in zip(code,c):
     code[key]= val
 
@@ -89,7 +88,9 @@ with open ("NEO_SYNTAGMA_KEF.txt","r") as f1:
     mes_in = ''.join(f1.read())
 
 coded_mes = coding(mes_in,code)
-
+print('Code =',code)
+with open ('S_F_2019070_2019235.txt','w') as f1:
+      f1.write(coded_mes)
 # DECODING PART
 
 # Decoding the message
@@ -106,13 +107,13 @@ def decoding01(mes,code):
         i += len(letter)
      # if you uncomment the difference from the original message increases
      #   if letter == '':
-      #      letter = '_'
+     #      letter = '_'
         decoded.append(letter)
     return ''.join(decoded)
 
 r_message = decoding01(coded_mes,code)
 
-with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
+with open ('S_F_2019070_2019235_DECODED.txt','w') as f1:
       f1.write(r_message)
 
 def hamming_distance(s1, s2):

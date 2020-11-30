@@ -1,5 +1,5 @@
 import math
-import erwtima_3
+import erwtima_1
 
 num_letters = 24
 distance = 0
@@ -10,7 +10,7 @@ u = {'Α':x, 'Β':x, 'Γ':x, 'Δ':x, 'Ε':x, 'Ζ':x, 'Η':x, 'Θ':x, 'Ι':x,
      'Τ':x, 'Υ':x, 'Φ':x, 'Χ':x, 'Ψ':x, 'Ω':x}
 
 #calling function that calculates distribution p from our text
-letters_count, pdf = erwtima_3.alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt')
+letters_count, pdf = erwtima_1.alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt')
 
 for i in pdf.keys():
     distance += pdf[i]*math.log(pdf[i]/u[i],2)

@@ -1,11 +1,12 @@
 import random
-import erwtima_3
+import erwtima_1
+import math
 
 
 def huffman(p):
    
     #to parakato den xriazete, aplos elegxi ama ta stixoia pou tou exoume dosi einai 100% kai oti dipote allo to stamatai(sta test pou tou ekana merikes fores me blockare xoris logo)
-    assert(sum(p.values()) == 1.0) # Ensure probabilities sum to 1
+   # assert(sum(p.values()) == 1.0) # Ensure probabilities sum to 1
 
     # Base case of only two symbols, assign 0 or 1 arbitrarily
     if(len(p) == 2):
@@ -21,7 +22,7 @@ def huffman(p):
     c = huffman(p_prime)
     ca1a2 = c.pop(a1 + a2)
     c[a1], c[a2] = ca1a2 + '0', ca1a2 + '1'
-
+    
     return c
 
 def lowest_prob_pair(p):
@@ -30,7 +31,7 @@ def lowest_prob_pair(p):
 
     sorted_p = sorted(p.items(), key=lambda x: x[1])      
     return sorted_p[0][0], sorted_p[1][0]
-#Gia na douleyi aplos prepi na baloume mesa ston huffman to alphabet apo to erwtima_3, opws huffman(example)
+
 
 def coding(mes,code):
     coded_mes = []
@@ -40,16 +41,27 @@ def coding(mes,code):
 
 # Create code by using letters keys and c values
 #ekana antikatastasi tou Shannon me huffman
-letters = huffman(erwtima_3.letters_count)
-code = letters
-for key, val in zip(code,c):
-    code[key]= val
+#edw pernas alphabito enw thes pithanotites
 
 # Create the message
 with open ("NEO_SYNTAGMA_KEF.txt","r") as f1:
     mes_in = ''.join(f1.read())
 
-coded_mes = coding(mes_in,code)
+letters,pdf = erwtima_1.alphabetGR_count_distribution('NEO_SYNTAGMA_AB.txt') 
+p = list(pdf.values())
+h = 0
+l_sfe = 0
+print('Code =',huffman(pdf))
+c = list(huffman(pdf).values())
+for i in range(len(p)):
+    h -= p[i] * math.log(p[i],2)
+    l_sfe += p[i] * len(c[i]) 
+print('H(X) = ',h,'L(X) = ',l_sfe,'Eff =',h/l_sfe)
+
+coded_mes = coding(mes_in,huffman(pdf))
+
+with open ('Huff_2019070_2019235.txt','w') as f1:
+      f1.write(coded_mes)
 
 # DECODING PART
 
@@ -71,9 +83,8 @@ def decoding01(mes,code):
         decoded.append(letter)
     return ''.join(decoded)
 
-r_message = decoding01(coded_mes,code)
-
-with open ('NEO_SYNTAGMA_CODED_SF.txt','w') as f1:
+r_message = decoding01(coded_mes,huffman(pdf))
+with open ('Huff_2019070_2019235_DECODED.txt','w') as f1:
       f1.write(r_message)
 
 def hamming_distance(s1, s2):
